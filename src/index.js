@@ -1,15 +1,25 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import TrelloClone from './App';
+import sampleData from './mockData/sampleData';
 import reportWebVitals from './reportWebVitals';
+import Column from './column.jsx'
 
-ReactDOM.render(
-  <React.StrictMode>
-    <TrelloClone />
-  </React.StrictMode>,
-  document.getElementById('root')
-);
+class TrelloClone extends React.Component {
+  state = sampleData;
+
+  render() {
+    return this.state.columnOrder.map(columnId => {
+      const column = this.state.columns[columnId];
+      const tasks = column.taskIds.map(taskId => this.state.tasks[taskId]);
+
+      return <Column key={column.id} column={column} tasks={tasks} />;
+    });
+  }
+}
+
+ReactDOM.render(<TrelloClone />, document.getElementById('root'));
+
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
